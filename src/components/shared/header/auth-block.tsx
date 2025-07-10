@@ -4,6 +4,7 @@ import { authClient } from "@/lib/auth-client";
 
 export default function AuthBlock() {
   const { data: session, isPending } = authClient.useSession();
+  console.log(session?.user.image);
 
   const handleGoogleLogin = async () => {
     await authClient.signIn.social({

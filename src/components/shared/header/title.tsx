@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Title() {
   return (
-    <div className="flex flex-row items-center gap-4">
+    <div className="flex flex-row items-center gap-4 absolute left-8">
       <div className="relative w-12 h-12 rounded-full overflow-hidden">
         <Image src="/anna.png" alt="Animal Yapping" fill />
       </div>

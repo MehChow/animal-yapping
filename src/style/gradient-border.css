@@ -1,0 +1,87 @@
+:root {
+  --clr-1: #a3ebce;
+  --clr-2: #ffffff;
+  --clr-3: #e4aef0;
+
+  --clr-4: #70e1f5;
+  --clr-5: #ffffff;
+  --clr-6: #ffd194;
+}
+
+.signin-card,
+.signup-card {
+  position: relative;
+}
+
+.signin-card::before {
+  content: "";
+  position: absolute;
+  background-image: conic-gradient(
+    from var(--angle),
+    var(--clr-1),
+    var(--clr-2),
+    var(--clr-3),
+    var(--clr-2),
+    var(--clr-1)
+  );
+  inset: 0;
+  border-radius: inherit;
+  z-index: 0;
+  animation: 5s spin linear infinite;
+  filter: blur(1.5rem);
+}
+
+.signin-card::after {
+  content: "";
+  position: absolute;
+  background-image: conic-gradient(
+    from var(--angle),
+    var(--clr-1),
+    var(--clr-2),
+    var(--clr-3),
+    var(--clr-2),
+    var(--clr-1)
+  );
+  inset: 0;
+  border-radius: inherit;
+  z-index: 1;
+  animation: 5s spin linear infinite;
+}
+
+.signup-card::before,
+.signup-card::after {
+  content: "";
+  position: absolute;
+  background-image: conic-gradient(
+    from var(--angle),
+    var(--clr-4),
+    var(--clr-5),
+    var(--clr-6),
+    var(--clr-5),
+    var(--clr-4)
+  );
+  inset: 0;
+  border-radius: inherit;
+  z-index: 0;
+  animation: 5s spin linear infinite;
+}
+
+.signup-card::after {
+  z-index: 1;
+  filter: blur(1.5rem);
+}
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes spin {
+  from {
+    --angle: 0deg;
+  }
+  to {
+    --angle: 360deg;
+  }
+}

@@ -19,15 +19,15 @@ export default function AuthBlock() {
 
   if (isPending) {
     return (
-      <div className="flex items-center gap-3 ml-auto mr-4">
-        <Skeleton className="h-10 w-10 rounded-full" />
-        <Skeleton className="h-4 w-16" />
+      <div className="flex items-center gap-3 w-28">
+        <Skeleton className="size-8 rounded-full" />
+        <Skeleton className="h-4 w-[60%]" />
       </div>
     );
   }
 
   return (
-    <div className="flex items-center gap-3 ml-auto mr-4">
+    <div className="flex items-center gap-3 w-28">
       <Avatar>
         <AvatarImage src={avatarSrc} />
       </Avatar>

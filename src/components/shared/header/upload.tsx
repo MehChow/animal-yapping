@@ -10,9 +10,35 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import Image from "next/image";
+import { useCloudinaryUpload } from "@/context/cloudinary-upload-provider";
+import { useState, useEffect } from "react";
 
 export default function Upload() {
   const { data: session } = authClient.useSession();
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const { openUploadWidget } = useCloudinaryUpload();
+  const [pendingUpload, setPendingUpload] = useState<{
+    folder: string;
+    game: string;
+  } | null>(null);
+
+  const handleUploadClick = (folder: string, game: string) => {
+    setPendingUpload({ folder, game });
+    setDialogOpen(false); // Close the dialog
+  };
+
+  useEffect(() => {
+    if (!dialogOpen && pendingUpload) {
+      openUploadWidget({
+        ...pendingUpload,
+        onSuccess: (info) => {
+          // handle success
+        },
+      });
+      setPendingUpload(null);
+    }
+  }, [dialogOpen, pendingUpload, openUploadWidget]);
 
   if (!session?.user) {
     return null;
@@ -24,7 +50,7 @@ export default function Upload() {
   }
 
   return (
-    <Dialog>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger className="text-white hover:bg-white/10 dark:text-white dark:hover:bg-white/10 cursor-pointer p-2.5 rounded-md transition-all duration-150">
         <UploadIcon className="size-4" />
       </DialogTrigger>
@@ -35,36 +61,49 @@ export default function Upload() {
           </DialogTitle>
           <DialogDescription className="flex flex-row mt-4 justify-center gap-4">
             {/* Minecraft */}
-            <Button
-              className="w-[50%] h-[8rem] relative cursor-pointer transition-all duration-300 bg-transparent hover:bg-transparent group"
-              onClick={() => console.log("gg")}
-            >
-              <Image
-                src="/minecraft.webp"
-                alt="Minecraft"
-                fill
-                className="object-cover rounded-md opacity-100 group-hover:opacity-50 group-hover:scale-105 transition-all duration-300"
-              />
-              <p className="text-center opacity-0 transition-all duration-300 text-white text-lg font-bold group-hover:opacity-100 absolute inset-0 flex items-center justify-center">
-                Minecraft
-              </p>
-            </Button>
+            <UploadButton
+              folder="Minecraft"
+              game="Minecraft"
+              image="/minecraft.webp"
+              onClick={() => handleUploadClick("Minecraft", "Minecraft")}
+            />
 
             {/* Apex Legends */}
-            <Button className="w-[50%] h-[8rem] relative cursor-pointer transition-all duration-300 bg-transparent hover:bg-transparent group">
-              <Image
-                src="/apex.jpg"
-                alt="Apex Legends"
-                fill
-                className="object-cover rounded-md opacity-100 group-hover:opacity-50 group-hover:scale-105 transition-all duration-300"
-              />
-              <p className="text-center opacity-0 transition-all duration-300 text-white text-lg font-bold group-hover:opacity-100 absolute inset-0 flex items-center justify-center">
-                Apex Legends
-              </p>
-            </Button>
+            <UploadButton
+              folder="Apex"
+              game="Apex Legends"
+              image="/apex.jpg"
+              onClick={() => handleUploadClick("Apex", "Apex Legends")}
+            />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
     </Dialog>
+  );
+}
+
+interface UploadButtonProps {
+  folder: string;
+  game: string;
+  image: string;
+  onClick: () => void;
+}
+
+function UploadButton({ folder, game, image, onClick }: UploadButtonProps) {
+  return (
+    <Button
+      className="w-[50%] h-[8rem] relative cursor-pointer transition-all duration-300 bg-transparent hover:bg-transparent group"
+      onClick={onClick}
+    >
+      <Image
+        src={image}
+        alt={game}
+        fill
+        className="object-cover rounded-md opacity-100 group-hover:opacity-50 group-hover:scale-105 transition-all duration-300"
+      />
+      <p className="text-center opacity-0 transition-all duration-300 text-white text-lg font-bold group-hover:opacity-100 absolute inset-0 flex items-center justify-center">
+        {game}
+      </p>
+    </Button>
   );
 }

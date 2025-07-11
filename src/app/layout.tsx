@@ -4,6 +4,7 @@ import { Tektur } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./providers"; // Import ThemeProvider
 import Header from "@/components/shared/header";
+import { CloudinaryUploadProvider } from "@/context/cloudinary-upload-provider";
 
 const tektur = Tektur({ subsets: ["latin"] });
 
@@ -28,10 +29,12 @@ export default function RootLayout({
           enableSystem // Allow system theme
           disableTransitionOnChange // Prevents flash of unstyled content
         >
-          <div className="relative min-h-screen bg-gradient-to-br from-gray-900 via-zinc-900 to-black">
-            <Header />
-            {children}
-          </div>
+          <CloudinaryUploadProvider>
+            <div className="relative min-h-screen bg-gradient-to-br from-gray-900 via-zinc-900 to-black">
+              <Header />
+              {children}
+            </div>
+          </CloudinaryUploadProvider>
         </ThemeProvider>
       </body>
     </html>

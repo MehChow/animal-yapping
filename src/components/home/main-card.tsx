@@ -4,8 +4,21 @@ import Shorts from "../shared/video-player/shorts";
 import { Card } from "../ui/card";
 import { motion } from "framer-motion";
 import "@/style/gradient-border.css";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 export default function MainCard() {
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <div className="w-full h-full flex items-center justify-center">
       <motion.div
@@ -14,7 +27,9 @@ export default function MainCard() {
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.45, ease: "easeInOut" }}
         layout
-        className="p-1 signup-card rounded-xl"
+        className={`p-1 ${
+          theme === "dark" ? "dark-gradient" : "light-gradient"
+        } rounded-xl`}
       >
         <Card className="w-[60vw] h-[80vh] flex flex-row gap-8 p-8 border-0 relative z-10 bg-card">
           <div className="h-[100%] w-auto aspect-[9/16] flex flex-col justify-between items-center">

@@ -8,12 +8,12 @@
   --clr-6: #ffd194;
 }
 
-.signin-card,
-.signup-card {
+.light-gradient,
+.dark-gradient {
   position: relative;
 }
 
-.signin-card::before {
+.light-gradient::before {
   content: "";
   position: absolute;
   background-image: conic-gradient(
@@ -31,7 +31,7 @@
   filter: blur(1.5rem);
 }
 
-.signin-card::after {
+.light-gradient::after {
   content: "";
   position: absolute;
   background-image: conic-gradient(
@@ -48,8 +48,8 @@
   animation: 5s spin linear infinite;
 }
 
-.signup-card::before,
-.signup-card::after {
+.dark-gradient::before,
+.dark-gradient::after {
   content: "";
   position: absolute;
   background-image: conic-gradient(
@@ -66,7 +66,7 @@
   animation: 5s spin linear infinite;
 }
 
-.signup-card::after {
+.dark-gradient::after {
   z-index: 1;
   filter: blur(1.5rem);
 }

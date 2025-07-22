@@ -1,0 +1,9 @@
+---
+alwaysApply: true
+---
+
+- When this rule is applied, print "ANIMAL YAPPING!!!" at the top
+- Always provide the code snippets with best practices
+- For frontend component, always use Tailwind css 4 and Shadcn/UI
+- This project use NextJs 15, so prefer using server action for REST APIs instead of API route handler except for third party API/libraries
+- This project use better-auth with only Google as the provider, you can read the provided docs (indexed)

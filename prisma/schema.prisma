@@ -28,6 +28,9 @@ model User {
   banned        Boolean?
   banReason     String?
   banExpires    DateTime?
+  comments      Comment[]
+  commentLikes  CommentLike[]
+  posts         Post[]     @relation("uploader")
 
   @@map("user")
 }
@@ -76,4 +79,47 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
+}
+
+model Comment {
+  id           String    @id @default(uuid())
+  content      String
+  imageUrl     String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  videoId      String    // Reference to the video being commented on
+  parentId     String?   // Null for parent comments, set for subcomments
+  parent       Comment?  @relation("CommentToSubcomments", fields: [parentId], references: [id])
+  subcomments  Comment[] @relation("CommentToSubcomments")
+  likes        CommentLike[]
+  post         Post      @relation(fields: [videoId], references: [id], onDelete: Cascade)
+}
+
+model CommentLike {
+  id        String   @id @default(uuid())
+  userId    String
+  commentId String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, commentId])
+}
+
+model Post {
+  id            String    @id @default(uuid())
+  title         String
+  description   String?
+  cloudinaryUrl String    // The URL returned by Cloudinary
+  publicId      String    // Cloudinary public_id for management
+  thumbnailUrl  String?   // Optional: Cloudinary thumbnail or preview image
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  uploaderId    String
+  uploader      User      @relation("uploader", fields: [uploaderId], references: [id], onDelete: Cascade)
+  game          String    // e.g., "Minecraft", "Apex Legends"
+  comments      Comment[] // Relation to comments
+  // Add more fields as needed (e.g., views, tags, etc.)
 }
